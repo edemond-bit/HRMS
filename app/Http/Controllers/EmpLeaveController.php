@@ -34,9 +34,10 @@ class EmpLeaveController extends Controller
     private function manageLeaveAllotment($emp_id, $leave_type, $leave_status, $prev_leave_status, $start_date, $end_date){
         $status = true;
         $today = date("Y-m-d");
-        if($today < $start_date){
+        if($today > $start_date){
             $dateDiff = date_diff(date_create($end_date), date_create($start_date));
             $days = $dateDiff->format('%a') + 1;
+            //dd($days);
             if($days > 0 and $leave_status == 'Accepted'){
                 $record = EmpLeaveAllotment::find($emp_id);
                 if($leave_type == 'CL' && $record->CL >= $days){
@@ -169,21 +170,40 @@ class EmpLeaveController extends Controller
     }
 
     public function index(){
-        $empLeaves = EmpLeave::getByPaginate(8);
-        //dd($empLeaves);
-        $leaveAllotment = EmpLeaveAllotment::All();
-        $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
-        //dd($leaveAllotment);
-        $data = [
-            'leaveAllotment' => $leaveAllotment,
-            'empLeaves'  => $empLeaves
-        ];
+        $uid = Auth::id();
+        $user = User::find($uid);
+
+        if($user->admin == '1002') {
+            $empLeaves = EmpLeave::getByPaginate(8, null);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::All();
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
+        else{
+            $empLeaves = EmpLeave::getByPaginate(8, $uid);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::getLeaveAllotment($uid);
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
         $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => ""];
         return view('admin.empLeave', compact('data'))->with('pageSetting', $pageSetting);
     }
 
     public function fetch_data(Request $request)
     {
+        $uid = Auth::id();
+        $user = User::find($uid);
+
         $page = $request->input('fd_page');
         $recs = $request->input('fd_recs');
         $sort_by = $request->input('fd_sort_by');
@@ -191,21 +211,37 @@ class EmpLeaveController extends Controller
         $query = $request->input('fd_query');
         $query = Str::replaceArray(" ", ["%"], $query);
 
-        $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
-        //dd($empLeaves);
-        $leaveAllotment = EmpLeaveAllotment::All();
-        $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
-        //dd($leaveAllotment);
-        $data = [
-            'leaveAllotment' => $leaveAllotment,
-            'empLeaves'  => $empLeaves
-        ];
+        if($user->admin == '1002') {
+            $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query, null);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::All();
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
+        else{
+            $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query, $uid);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::getLeaveAllotment($uid);
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
         return view('admin.empLeave', compact('data'))->with('pageSetting', $pageSetting);
     }
 
     public function processJSON(Request $request)
     {
+        $uid = Auth::id();
+        $user = User::find($uid);
+
         $resStr = '';
         $inputs = json_decode($request->input('fd_cud'),true);
         //dd($inputs);
@@ -225,7 +261,6 @@ class EmpLeaveController extends Controller
             $resStr .= ($resStr == '' ? 'D' : ';D');
         }
 
-
         //Now prepare the query
         $page = $request->input('fd_cud_page');
         $recs = $request->input('fd_cud_recs');
@@ -234,15 +269,28 @@ class EmpLeaveController extends Controller
         $query = $request->input('fd_cud_query');
         $query = Str::replaceArray(" ", ["%"], $query);
 
-        $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
-        //dd($empLeaves);
-        $leaveAllotment = EmpLeaveAllotment::All();
-        $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
-        //dd($leaveAllotment);
-        $data = [
-            'leaveAllotment' => $leaveAllotment,
-            'empLeaves'  => $empLeaves
-        ];
+        if($user->admin == '1002') {
+            $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query, null);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::All();
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
+        else{
+            $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query, $uid);
+            //dd($empLeaves);
+            $leaveAllotment = EmpLeaveAllotment::getLeaveAllotment($uid);
+            $leaveAllotment = $this->fetchRelativeData($leaveAllotment);
+            //dd($leaveAllotment);
+            $data = [
+                'leaveAllotment' => $leaveAllotment,
+                'empLeaves' => $empLeaves
+            ];
+        }
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
         return view('admin.empLeave', compact('data'))->with('pageSetting', $pageSetting);
     }

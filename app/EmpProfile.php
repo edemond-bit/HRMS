@@ -155,4 +155,10 @@ class EmpProfile extends Model
         }
         return $empProfiles;
     }
+
+    public static function getByEmpDisplayId($emp_display_id){
+        return DB::table('emp_profile')->select('*')
+            ->where('emp_display_id', '=', $emp_display_id)
+            ->get();
+    }
 }

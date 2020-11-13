@@ -92,7 +92,8 @@ Route::post('/emp_payroll_info/update_data', 'EmpPayrollInfoController@processJS
 Route::get('/emp_leave', 'EmpLeaveController@index')->name('emp_leave.index');
 Route::post('/emp_leave/fetch_data', 'EmpLeaveController@fetch_data')->name('emp_leave.fetch_data');
 Route::post('/emp_leave/update_data', 'EmpLeaveController@processJSON')->name('emp_leave.update_data');
-
+Route::get('/emp_leave/leave', 'EmpLeaveController@leave_calculation')->name('emp_attendance.leave');
+Route::post('/emp_leave/leave_cond', 'EmpLeaveController@leave_calculation_cond')->name('emp_attendance.leave_cond');
 
 Route::get('/emp_attendance', 'EmpAttendanceController@index')->name('emp_attendance.index');
 Route::post('/emp_attendance/fetch_data', 'EmpAttendanceController@fetch_data')->name('emp_attendance.fetch_data');
@@ -106,6 +107,7 @@ Route::get('/emp_payroll', 'EmpPayrollController@index')->name('emp_payroll.inde
 Route::post('/emp_payroll/fetch_data', 'EmpPayrollController@fetch_data')->name('emp_payroll.fetch_data');
 Route::post('/emp_payroll/update_data', 'EmpPayrollController@processJSON')->name('emp_payroll.update_data');
 Route::post('/emp_payroll/payslip', 'EmpPayrollController@generate_Pay_Slip')->name('emp_payroll.payslip');
+Route::post('/emp_payroll/payslip_print', 'EmpPayrollController@print_Pay_Slip')->name('emp_payroll.payslip_print');
 
 Route::get('payroll_deduction', 'PayrollDeductionController@index')->name('payroll_deduction.index');
 Route::post('/payroll_deduction/fetch_data', 'PayrollDeductionController@fetch_data')->name('payroll_deduction.fetch_data');

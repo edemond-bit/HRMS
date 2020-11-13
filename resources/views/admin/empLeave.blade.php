@@ -11,7 +11,6 @@
                     <thead>
                     <tr>
                         <th align='center' colspan="1">
-                            {!! Form::selectRange('records', 5, 100, $pageSetting['recs'], array('onchange' => 'changePageRecs2(this)')) !!}
                         </th>
                         <th align='center' colspan="3">
                             <div class="row">
@@ -118,6 +117,10 @@
                     </tbody>
                 </table>
                 <div hidden>
+                    <form id="searchfilter2" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
+                        {{csrf_field()}}
+                        <input type="text" name="fd_query2" id="fd_query2" value="{{$pageSetting['query']}}">
+                    </form>
                     <form id="searchfilter" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
                         {{csrf_field()}}
                         <input type="text" name="fd_page" id="fd_page" value="{{$pageSetting['page']}}">

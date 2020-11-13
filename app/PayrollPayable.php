@@ -17,18 +17,19 @@ class PayrollPayable extends Model
     const UPDATED_AT = 'modified_date';
 
     public static function getByPaginate($recs){
-        return DB::table('payroll_payable_info')->select('id', 'name', 'basic', 'hra', 'conveyance',
+        return DB::table('payroll_payable_info')->select('id', 'designation', 'basic', 'hra', 'conveyance',
             'ot', 'leave_encashment', 'allowance', 'in_use')
+
             ->orderBy('id', 'asc')->paginate($recs);
     }
 
     public static function getByConditionalPaginate($recs, $sort_by, $sort_type, $query){
         if($query) {
-            $shiftCategories = DB::table('payroll_payable_info')
-                ->select('id', 'name', 'basic', 'hra', 'conveyance',
+            $payrollPayable = DB::table('payroll_payable_info')
+                ->select('id', 'designation', 'basic', 'hra', 'conveyance',
                     'ot', 'leave_encashment', 'allowance', 'in_use')
                 ->where('id', 'like', '%' . $query . '%')
-                ->orWhere('name', 'like', '%' . $query . '%')
+                ->orWhere('designation', 'like', '%' . $query . '%')
                 ->orWhere('basic', 'like', '%' . $query . '%')
                 ->orWhere('hra', 'like', '%' . $query . '%')
                 ->orWhere('conveyance', 'like', '%' . $query . '%')
@@ -39,13 +40,13 @@ class PayrollPayable extends Model
                 ->paginate($recs);
         }
         else{
-            $shiftCategories = DB::table('payroll_payable_info')
-                ->select('id', 'name', 'basic', 'hra', 'conveyance',
+            $payrollPayable = DB::table('payroll_payable_info')
+                ->select('id', 'designation', 'basic', 'hra', 'conveyance',
                     'ot', 'leave_encashment', 'allowance', 'in_use')
                 ->orderBy($sort_by, $sort_type)
                 ->paginate($recs);
         }
-        return $shiftCategories;
+        return $payrollPayable;
     }
 
     public static function pluck(array $columns){
@@ -55,5 +56,13 @@ class PayrollPayable extends Model
             $result = DB::table('payroll_payable_info')->pluck($columns[0]);
         }
         return $result;
+    }
+
+    public static function getPayrollPayableByDesignation($designation){
+        return DB::table('payroll_payable_info')
+            ->select('id', 'designation', 'basic', 'hra', 'conveyance',
+                'ot', 'leave_encashment', 'allowance', 'in_use')
+            ->where('designation', '=', $designation)
+            ->get()->first();
     }
 }

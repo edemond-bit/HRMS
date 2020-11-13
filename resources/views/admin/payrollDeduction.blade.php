@@ -9,7 +9,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
                     <div style="text-align:left">
-                        {!! $payrollDeductions->links() !!}
+                        {!! $payrollDeductionData['payrollDeductions']->links() !!}
                     </div>
                     <table cellspacing="0" rules="all" border="1" id="Table1" style="border-collapse:collapse;" class="table table-hover table-bordered" >
                         <thead>
@@ -38,7 +38,7 @@
                             <tr align='center'>
                                 <th width="8%" align='center'><i class="fa fa-trash"></i></th>
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="id" style="cursor: pointer"> Sr <span id="id_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                                <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="name" style="cursor: pointer"> Name <span id="name_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="designation" style="cursor: pointer"> Designation <span id="designation_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="prof_tax" style="cursor: pointer"> Prof. Tax(%) <span id="prof_tax_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="esi" style="cursor: pointer"> ESI(%) <span id="esi_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="pf" style="cursor: pointer"> PF(%) <span id="pf_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
@@ -48,9 +48,9 @@
                         </thead>
                         <tbody>
                             <tr align='center'>
-                            @if($payrollDeductions)
+                            @if($payrollDeductionData['payrollDeductions'])
                                 <?php $index = 2; ?>
-                                @foreach ($payrollDeductions as $payrollDeduction)
+                                @foreach ($payrollDeductionData['payrollDeductions'] as $payrollDeduction)
                                     <?php $index++; ?>
                                     <tr>
                                         @if($payrollDeduction->in_use == 0)
@@ -59,7 +59,16 @@
                                             <td><label class="action" hidden>L</label>Locked</td>
                                         @endif
                                         <td>{{ $payrollDeduction->id }}</td>
-                                        <td><label class="lblname">{{$payrollDeduction->name}}</label></td>
+                                        @php
+                                            $designation_index = null;
+                                            foreach($payrollDeductionData['designations'] as $key => $value){
+                                                if($value == $payrollDeduction->designation){
+                                                    $designation_index = $key;
+                                                    break;
+                                                }
+                                            }
+                                        @endphp
+                                        <td><label class="lblname" for="{{$designation_index}}">{{$payrollDeduction->designation}}</label></td>
                                         <td><label class="lblname">{{$payrollDeduction->prof_tax}}</label></td>
                                         <td><label class="lblname">{{$payrollDeduction->esi}}</label></td>
                                         <td><label class="lblname">{{$payrollDeduction->pf}}</label></td>
@@ -205,7 +214,10 @@
             var grid = document.getElementById("Table1").insertRow(-1);
             grid.insertCell(0).innerHTML = "<label class='action' hidden>C</label><button style='font-size:8px' onclick='remove();'><i class='fa fa-remove'></i></button>";
             grid.insertCell(1).innerHTML = "";
-            grid.insertCell(2).innerHTML = "<input class='name' type='text' style='border:none' size='8'>";
+            //grid.insertCell(2).innerHTML = "<input class='name' type='text' style='border:none' size='8'>";
+            grid.insertCell(2).innerHTML = "{{Html::decode(Form::select('designation', $payrollDeductionData['designations'], null, array('class' =>'designation')))}}";
+            grid.cells[2].innerHTML = grid.cells[2].innerText;
+
             grid.insertCell(3).innerHTML = "<input class='name' type='number' min='00.00' max='100.00' step='00.01' value='00.00' style='border:none'>";
             grid.insertCell(4).innerHTML = "<input class='name' type='number' min='00.00' max='100.00' step='00.01' value='00.00' style='border:none'>";
             grid.insertCell(5).innerHTML = "<input class='name' type='number' min='00.00' max='100.00' step='00.01' value='00.00' style='border:none'>";
@@ -237,8 +249,12 @@
                 element.innerHTML = "<i class='fa fa-undo'></i>";
 
                 lblelement = cells[2].getElementsByClassName("lblname");
+                lblIndex = (lblelement[0].htmlFor ? lblelement[0].htmlFor : 0);
                 lblName = lblelement[0].innerText;
-                cells[2].innerHTML = "<label class='lblname' hidden>" + lblName + "</label><input class='name' type='text' style='border:none' value='" + lblName +  "' size='8'>";
+                cells[2].innerHTML = "{{Html::decode(Form::select('designation', $payrollDeductionData['designations'], null, array('class' =>'designation')))}}";
+                cells[2].innerHTML = "<label class='lblname' for='" + lblIndex + "' hidden>" + lblName + "</label>" + cells[2].innerText;
+                var designation = cells[2].getElementsByClassName("designation");
+                designation[0].options[lblIndex].selected = true;
 
                 lblelement = cells[3].getElementsByClassName("lblname");
                 lblName = lblelement[0].innerText;
@@ -307,17 +323,20 @@
                 } else if (actions[k].innerHTML == 'C') {
                     //New record insert request
                     var names = row.getElementsByClassName("name");
+                    var designation = row.cells[2].getElementsByClassName("designation");
                     if(names[0].value) {
-                        nArr[n++] = JSON.stringify({"name": names[0].value, "prof_tax": names[1].value,
-                            "esi": names[2].value, "pf": names[3].value, "tds": names[4].value});
+                        nArr[n++] = JSON.stringify({"designation": designation[0].options[designation[0].selectedIndex].text,
+                            "prof_tax": names[0].value, "esi": names[1].value, "pf": names[2].value, "tds": names[3].value});
                     }
                 } else if (actions[k].innerHTML == 'LU' || actions[k].innerHTML == 'DU') {
                     //Existing record update request
                     var names = row.getElementsByClassName("name");
+                    var designation = row.cells[2].getElementsByClassName("designation");
                     if(names[0].value) {
-                        uArr[u++] = JSON.stringify({"id": row.cells[1].innerHTML, "name": names[0].value,
-                            "prof_tax": names[1].value, "esi": names[2].value, "pf": names[3].value,
-                            "tds": names[4].value});
+                        uArr[u++] = JSON.stringify({"id": row.cells[1].innerHTML,
+                            "designation": designation[0].options[designation[0].selectedIndex].text,
+                            "prof_tax": names[0].value, "esi": names[1].value, "pf": names[2].value,
+                            "tds": names[3].value});
                         if (actions[k].innerHTML == 'LU') {
                             l++;
                         }

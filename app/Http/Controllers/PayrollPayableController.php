@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EmpDesignation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,10 +33,10 @@ class PayrollPayableController extends Controller
 
         foreach($recs as $rec){
             //Check for duplicate entry
-            if(PayrollPayable::where('name', $rec['name'])->count() == 0) {
+            if(PayrollPayable::where('designation', $rec['designation'])->count() == 0) {
                 //Save data in DB
                 $record = new PayrollPayable();
-                $record->name = $rec['name'];
+                $record->designation = $rec['designation'];
                 $record->basic = $rec['basic'];
                 $record->hra = $rec['hra'];
                 $record->conveyance = $rec['conveyance'];
@@ -57,10 +58,10 @@ class PayrollPayableController extends Controller
 
         foreach ($recs as $rec) {
             //Check for duplicate entry
-            //if(LeaveCategory::where('name', $rec['name'])->count() == 0) {
+            if(PayrollPayable::where('designation', $rec['designation'])->count() == 0) {
                 //Update data in DB
                 $record = PayrollPayable::find($rec['id']);
-                $record->name = $rec['name'];
+                $record->designation = $rec['designation'];
                 $record->basic = $rec['basic'];
                 $record->hra = $rec['hra'];
                 $record->conveyance = $rec['conveyance'];
@@ -70,7 +71,7 @@ class PayrollPayableController extends Controller
                 $record->modified_by = $user->admin;
                 $record->modified_date = $this->now();
                 $record->save();
-            //}
+            }
         }
     }
 
@@ -86,8 +87,14 @@ class PayrollPayableController extends Controller
     public function index(){
         $payrollPayables = PayrollPayable::getByPaginate(8);
         //dd($payrollPayables);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollPayableData = [
+            'payrollPayables' => $payrollPayables,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => ""];
-        return view('admin.payrollPayable', compact('payrollPayables'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollPayable', compact('payrollPayableData'))->with('pageSetting', $pageSetting);
     }
 
     public function fetch_data(Request $request)
@@ -101,8 +108,14 @@ class PayrollPayableController extends Controller
 
         $payrollPayables = PayrollPayable::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
         //dd($payrollPayable);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollPayableData = [
+            'payrollPayables' => $payrollPayables,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
-        return view('admin.payrollPayable', compact('payrollPayables'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollPayable', compact('payrollPayableData'))->with('pageSetting', $pageSetting);
     }
 
     public function processJSON(Request $request)
@@ -137,7 +150,13 @@ class PayrollPayableController extends Controller
 
         $payrollPayables = PayrollPayable::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
         //dd($payrollPayables);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollPayableData = [
+            'payrollPayables' => $payrollPayables,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
-        return view('admin.payrollPayable', compact('payrollPayables'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollPayable', compact('payrollPayableData'))->with('pageSetting', $pageSetting);
     }
 }

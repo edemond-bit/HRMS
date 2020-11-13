@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EmpLeaveAllotment;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -76,35 +77,54 @@ class LeaveScheduleController extends Controller
                 if(count($designation_id) > 0 || count($leave_type_id) > 0) {
                     //Update data in DB
                     $record = LeaveSchedule::find($rec['id']);
-                    if(($record->designation_id && count($designation_id) == 0) ||
-                        (count($designation_id) > 0 && $record->designation_id <> $designation_id[0]->{'id'})) {
-                        //dd($record->designation_id);
-                        if($record->designation_id) {
-                            $in_use_obj = EmpDesignation::where('id', $record->designation_id)->select('in_use')->get();
+                    $extra_day = $rec['day_count'] - $record->day_count;
+                    if($extra_day > 0) {
+                        if (($record->designation_id && count($designation_id) == 0) ||
+                            (count($designation_id) > 0 && $record->designation_id <> $designation_id[0]->{'id'})) {
+                            //dd($record->designation_id);
+                            if ($record->designation_id) {
+                                $in_use_obj = EmpDesignation::where('id', $record->designation_id)->select('in_use')->get();
+                                $in_use = $in_use_obj[0]->{'in_use'} - 1;
+                                EmpDesignation::where('id', $record->designation_id)->update(['in_use' => $in_use]);
+                            }
+                            $record->designation_id = (count($designation_id) > 0 ? $designation_id[0]->{'id'} : null);
+                            if ($record->designation_id) {
+                                $in_use_obj = EmpDesignation::where('id', $record->designation_id)->select('in_use')->get();
+                                $in_use = $in_use_obj[0]->{'in_use'} + 1;
+                                EmpDesignation::where('id', $record->designation_id)->update(['in_use' => $in_use]);
+                            }
+                        }
+                        if ($record->leave_type_id <> $leave_type_id[0]->{'id'}) {
+                            $in_use_obj = LeaveCategory::where('id', $record->leave_type_id)->select('in_use')->get();
                             $in_use = $in_use_obj[0]->{'in_use'} - 1;
-                            EmpDesignation::where('id', $record->designation_id)->update(['in_use' => $in_use]);
-                        }
-                        $record->designation_id = (count($designation_id) > 0 ? $designation_id[0]->{'id'} : null);
-                        if($record->designation_id) {
-                            $in_use_obj = EmpDesignation::where('id', $record->designation_id)->select('in_use')->get();
+                            LeaveCategory::where('id', $record->leave_type_id)->update(['in_use' => $in_use]);
+                            $record->leave_type_id = $leave_type_id[0]->{'id'};
+                            $in_use_obj = LeaveCategory::where('id', $record->leave_type_id)->select('in_use')->get();
                             $in_use = $in_use_obj[0]->{'in_use'} + 1;
-                            EmpDesignation::where('id', $record->designation_id)->update(['in_use' => $in_use]);
+                            LeaveCategory::where('id', $record->leave_type_id)->update(['in_use' => $in_use]);
                         }
+                        //Update Leave Allotment Table [START]
+                        $record_allot = EmpLeaveAllotment::where('designation_id', $record->designation_id)->select('*')->get();
+                        //dd($record_allot);
+                        foreach($record_allot as $rec_allot) {
+                            if ($rec['leave_type'] == 'CL') {
+                                $rec_allot->CL += $extra_day;
+                            } else if ($rec['leave_type'] == 'SL') {
+                                $rec_allot->SL += $extra_day;
+                            } else if ($rec['leave_type'] == 'EL') {
+                                $rec_allot->EL += $extra_day;
+                            } else if ($rec['leave_type'] == 'PL') {
+                                $rec_allot->PL += $extra_day;
+                            }
+                            $rec_allot->save();
+                        }
+                        //Update Leave Allotment Table [END]
+                        $record->day_count = $rec['day_count'];
+                        $record->modified_by = $user->admin;
+                        $record->modified_date = $this->now();
+                        //dd($record);
+                        $record->save();
                     }
-                    if($record->leave_type_id <> $leave_type_id[0]->{'id'}) {
-                        $in_use_obj = LeaveCategory::where('id', $record->leave_type_id)->select('in_use')->get();
-                        $in_use = $in_use_obj[0]->{'in_use'} - 1;
-                        LeaveCategory::where('id', $record->leave_type_id)->update(['in_use' => $in_use]);
-                        $record->leave_type_id = $leave_type_id[0]->{'id'};
-                        $in_use_obj = LeaveCategory::where('id', $record->leave_type_id)->select('in_use')->get();
-                        $in_use = $in_use_obj[0]->{'in_use'} + 1;
-                        LeaveCategory::where('id', $record->leave_type_id)->update(['in_use' => $in_use]);
-                    }
-                    $record->day_count = $rec['day_count'];
-                    $record->modified_by = $user->admin;
-                    $record->modified_date = $this->now();
-                    //dd($record);
-                    $record->save();
                 }
             //}
         }

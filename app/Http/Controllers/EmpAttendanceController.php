@@ -156,7 +156,7 @@ class EmpAttendanceController extends Controller
         $uid = Auth::id();
         $empAttendances = EmpAttendance::getAttendance($uid);
         //dd($empAttendances);
-        $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => ""];
+        $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => "", "user" => $uid];
         return view('admin.indivAttendance', compact('empAttendances'))->with('pageSetting', $pageSetting);
     }
 
@@ -172,7 +172,7 @@ class EmpAttendanceController extends Controller
 
         $empAttendances = EmpAttendance::getAttendance_cond($uid, $recs, $sort_by, $sort_type, $query);
         //dd($empAttendances);
-        $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
+        $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query, "user" => $uid];
         return view('admin.indivAttendance', compact('empAttendances'))->with('pageSetting', $pageSetting);
     }
 }

@@ -57,4 +57,13 @@ class EmpPayrollInfo extends Model
         }
         return $result;
     }
+
+    public static function getPayrollData($emp_id){
+        return DB::table('emp_payroll_info')
+            ->select('emp_profile.emp_display_id as emp_display_id', 'ctc', 'hike_amt',
+                'indiv_hike_amt', 'loan_taken_amt', 'loan_deducted_amt')
+            ->leftjoin('emp_profile', 'emp_payroll_info.id', '=', 'emp_profile.profile_id')
+            ->where('emp_profile.emp_display_id', '=', $emp_id)
+            ->get();
+    }
 }

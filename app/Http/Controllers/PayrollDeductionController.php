@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\EmpDesignation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,10 +33,10 @@ class PayrollDeductionController extends Controller
 
         foreach($recs as $rec){
             //Check for duplicate entry
-            if(PayrollDeduction::where('name', $rec['name'])->count() == 0) {
+            if(PayrollDeduction::where('designation', $rec['designation'])->count() == 0) {
                 //Save data in DB
                 $record = new PayrollDeduction();
-                $record->name = $rec['name'];
+                $record->designation = $rec['designation'];
                 $record->prof_tax = $rec['prof_tax'];
                 $record->esi = $rec['esi'];
                 $record->pf = $rec['pf'];
@@ -55,10 +56,10 @@ class PayrollDeductionController extends Controller
 
         foreach ($recs as $rec) {
             //Check for duplicate entry
-            //if(LeaveCategory::where('name', $rec['name'])->count() == 0) {
+            if(PayrollDeduction::where('designation', $rec['designation'])->count() == 0) {
                 //Update data in DB
                 $record = PayrollDeduction::find($rec['id']);
-                $record->name = $rec['name'];
+                $record->designation = $rec['designation'];
                 $record->prof_tax = $rec['prof_tax'];
                 $record->esi = $rec['esi'];
                 $record->pf = $rec['pf'];
@@ -66,7 +67,7 @@ class PayrollDeductionController extends Controller
                 $record->modified_by = $user->admin;
                 $record->modified_date = $this->now();
                 $record->save();
-            //}
+            }
         }
     }
 
@@ -82,8 +83,14 @@ class PayrollDeductionController extends Controller
     public function index(){
         $payrollDeductions = PayrollDeduction::getByPaginate(8);
         //dd($payrollDeductions);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollDeductionData = [
+            'payrollDeductions' => $payrollDeductions,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => ""];
-        return view('admin.payrollDeduction', compact('payrollDeductions'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollDeduction', compact('payrollDeductionData'))->with('pageSetting', $pageSetting);
     }
 
     public function fetch_data(Request $request)
@@ -97,8 +104,14 @@ class PayrollDeductionController extends Controller
 
         $payrollDeductions = PayrollDeduction::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
         //dd($payrollDeduction);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollDeductionData = [
+            'payrollDeductions' => $payrollDeductions,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
-        return view('admin.payrollDeduction', compact('payrollDeductions'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollDeduction', compact('payrollDeductionData'))->with('pageSetting', $pageSetting);
     }
 
     public function processJSON(Request $request)
@@ -133,7 +146,13 @@ class PayrollDeductionController extends Controller
 
         $payrollDeductions = PayrollDeduction::getByConditionalPaginate($recs, $sort_by, $sort_type, $query);
         //dd($payrollDeductions);
+        $designations = EmpDesignation::pluck(['name']);
+        //dd($designations);
+        $payrollDeductionData = [
+            'payrollDeductions' => $payrollDeductions,
+            'designations' => $designations,
+        ];
         $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
-        return view('admin.payrollDeduction', compact('payrollDeductions'))->with('pageSetting', $pageSetting);
+        return view('admin.payrollDeduction', compact('payrollDeductionData'))->with('pageSetting', $pageSetting);
     }
 }

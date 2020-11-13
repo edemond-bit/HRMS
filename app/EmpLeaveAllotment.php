@@ -56,4 +56,11 @@ class EmpLeaveAllotment extends Model
         }
         return $result;
     }
+
+    public static function getLeaveAllotment($emp_id){
+        return DB::table('empleaveallotment')
+            ->select('id', 'designation_id', 'CL', 'SL', 'EL', 'PL')
+            ->where('empleaveallotment.id', '=', $emp_id)
+            ->get();
+    }
 }
