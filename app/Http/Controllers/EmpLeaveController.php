@@ -157,15 +157,19 @@ class EmpLeaveController extends Controller
         $i = 0;
         foreach($leaveAllotment as $leaveAllot){
             $record = EmpProfile::find($leaveAllot->id);
-            $record1  = EmpDesignation::find($leaveAllot->designation_id);
+            //dd($record);
+            $leaveName  = EmpDesignation::find($leaveAllot->designation_id);
+            //dd($leaveName)
             $res['emp_display_id'] = $record->emp_display_id;
-            $res['designation'] = $record1->name;
+            $res['designation'] = $leaveName->name;
             $res['CL'] = $leaveAllot->CL;
             $res['SL'] = $leaveAllot->SL;
             $res['EL'] = $leaveAllot->EL;
             $res['PL'] = $leaveAllot->PL;
             $result[$i++] = $res;
+            //break;
         }
+        //$designation = $leaveName->name;
         return $result;
     }
 

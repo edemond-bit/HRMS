@@ -110,10 +110,10 @@ class EmpPayrollController extends Controller
         $record->ot_encashment = $record->ot_count*$empPayableInfo->{'ot'};
         $record->leave_encashment = $empLeaveAllotment[0]->{'PL'}*$empPayableInfo->{'leave_encashment'};
         $record->tot_earning = $record->basic + $record->hra + $record->conveyance + $record->ot_encashment + $record->leave_encashment;
-        $record->ptax_deduction = round(($cumulative_ctc*$empDeductionInfo->{'prof_tax'})/100, 2);
-        $record->esi_deduction = round(($cumulative_ctc*$empDeductionInfo->{'esi'})/100, 2);
-        $record->pf_deduction = round(($cumulative_ctc*$empDeductionInfo->{'pf'})/100, 2);
-        $record->tds_deduction = round(($cumulative_ctc*$empDeductionInfo->{'tds'})/100, 2);
+        $record->ptax_deduction = round(($cumulative_ctc*$empDeductionInfo->prof_tax)/100, 2);
+        $record->esi_deduction = round(($cumulative_ctc*$empDeductionInfo->esi)/100, 2);
+        $record->pf_deduction = round(($cumulative_ctc*$empDeductionInfo->pf)/100, 2);
+        $record->tds_deduction = round(($cumulative_ctc*$empDeductionInfo->tds)/100, 2);
         $record->medicine_due = 0;
         $record->food_charge = 0;
         $record->loan_due_deduction = $empPayrollInfo[0]->{'loan_deducted_amt'};

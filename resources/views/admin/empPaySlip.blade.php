@@ -32,8 +32,8 @@
                                 <td colspan="2">Name: {{$empData['empProfile'][0]->name}}</td>
                             </tr>
                             <tr align='center'>
-                                <td colspan="2">Department: {{$empData['empProfile'][0]->department_id}}</td>
-                                <td colspan="2">Designation: {{$empData['empProfile'][0]->designation_id}}</td>
+                                <td colspan="2">Department: {{$empData['empProfile'][0]->dept_name}}</td>
+                                <td colspan="2">Designation: {{$empData['empProfile'][0]->designation}}</td>
                             </tr>
                             <tr align='center'>
                                 <td colspan="2">Pay Date: {{$empData['empSalaryData'][0]->issue_date}}</td>

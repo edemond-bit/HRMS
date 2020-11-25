@@ -67,7 +67,6 @@
                                                 <tr>
                                                     <td><label align='center' class="action" hidden>D</label><input class='checkbox1' type="checkbox">
                                                         <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                                        <button style="font-size:10px" onclick="external(this, {{$index}})"><i class="fa fa-external-link"></i></button>
                                                     </td>
                                                     <td>{{ $empProfile->profile_id }}</td>
                                                     @php
@@ -209,7 +208,6 @@
                                             <tr>
                                                 <td><label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
                                                     <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                                    <button style="font-size:10px" onclick="external(this, {{$index}})"><i class="fa fa-external-link"></i></button>
                                                 </td>
                                                 <td><label class="lblname" for="{{$empProfile->profile_id}}">{{$empProfile->emp_display_id}}</label></td>
                                                 @php
@@ -297,7 +295,6 @@
                                             <tr>
                                                 <td><label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
                                                     <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                                    <button style="font-size:10px" onclick="external(this, {{$index}})"><i class="fa fa-external-link"></i></button>
                                                 </td>
                                                 <td><label class="lblname" for="{{$empProfile->profile_id}}">{{$empProfile->emp_display_id}}</label></td>
                                                 <td><label class="lblname">{{$empProfile->name}}</label></td>
@@ -362,7 +359,6 @@
                                             <tr>
                                                 <td><label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
                                                     <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                                    <button style="font-size:10px" onclick="external(this, {{$index}})"><i class="fa fa-external-link"></i></button>
                                                 </td>
                                                 <td><label class="lblname" for="{{$empProfile->profile_id}}">{{$empProfile->emp_display_id}}</label></td>
                                                 <td><label class="lblname">{{$empProfile->address_current}}</label></td>
@@ -418,7 +414,6 @@
                                             <tr>
                                                 <td><label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
                                                     <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                                    <button style="font-size:10px" onclick="external(this, {{$index}})"><i class="fa fa-external-link"></i></button>
                                                 </td>
                                                 <td><label class="lblname" for="{{$empProfile->profile_id}}">{{$empProfile->emp_display_id}}</label></td>
                                                 @php
@@ -548,7 +543,7 @@
         {
             var str = "tab=" + $('#fd_tab').val() + "page=" + $('#fd_page').val() + "recs=" + $('#fd_recs').val() + " sort_by=" + $('#fd_sort_by').val() + " sort_type=" + $('#fd_sort_type').val() + " query=" + $('#fd_query').val();
             alert(str);
-            document.getElementById("searchfilter").action = '\\emp_profile\\fetch_data?page=' + $('#fd_page').val();
+            document.getElementById("searchfilter").action = '{{ route("emp_profile.fetch_data") }}?page=' + $('#fd_page').val();
             $("#waitingScreen").modal("show");
             $("#searchfilter").submit();
         }
@@ -1981,7 +1976,7 @@
                 $('#fd_cud_sort_type').val($('#fd_sort_type').val());
                 $('#fd_cud_query').val($('#fd_query').val());
                 $('#fd_cud').val(reqJsonData);
-                document.getElementById("cud_action").action = '\\emp_profile\\update_data?page=' + $('#fd_cud_page').val();
+                document.getElementById("cud_action").action = '{{ route("emp_profile.update_data") }}?page=' + $('#fd_cud_page').val();
                 $("#waitingScreen").modal("show");
                 $("#cud_action").submit();
             }

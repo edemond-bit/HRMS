@@ -67,6 +67,10 @@ class EmpProfileController extends Controller
                     if($rec['access_control'] != 'Select') {
                         $access_level_id = AccessControlList::where('access_level', $rec['access_control'])->select('id')->get();
                         $record->access_level_id = $access_level_id[0]->{'id'};
+                        //
+                        $after = AccessControlList::find($access_level_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
                     }
                     else{
                         $record->access_level_id = null;
@@ -75,6 +79,10 @@ class EmpProfileController extends Controller
                     if($rec['department'] != 'Select') {
                         $department_id = Department::where('name', $rec['department'])->select('id')->get();
                         $record->department_id = $department_id[0]->{'id'};
+                        //
+                        $after = Department::find($department_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
                     }
                     else{
                         $record->department_id = null;
@@ -82,8 +90,10 @@ class EmpProfileController extends Controller
                     if($rec['designation'] != 'Select') {
                         $designation_id = EmpDesignation::where('name', $rec['designation'])->select('id')->get();
                         $record->designation_id = $designation_id[0]->{'id'};
-
-
+                        //
+                        $after = EmpDesignation::find($designation_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
                     }
                     else{
                         $record->designation_id = null;
@@ -136,7 +146,15 @@ class EmpProfileController extends Controller
                     if($rec['qualification'] != 'Select') {
                         $qualification_id = EmpQualification::where('name', $rec['qualification'])->select('id')->get();
                         $record->qualification_id = $qualification_id[0]->{'id'};
+                        //
+                        $after = EmpQualification::find($qualification_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
                     }
+                    else{
+                        $record->qualification_id = null;
+                    }
+
                     $record->qualification_other = $rec['qualification_other'];
                     if($rec['qualification_docs']) {
                         $record->qualification_docs = $rec['qualification_docs'];
@@ -223,7 +241,15 @@ class EmpProfileController extends Controller
                     if($rec['bank_Ifscs'] != 'Select') {
                         $bankInfo_id = BankInfo::where('ifsc', $rec['bank_Ifscs'])->select('id')->get();
                         $record->bank_info_id = $bankInfo_id[0]->{'id'};
+                        //
+                        $after = BankInfo::find($bankInfo_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
                     }
+                    else{
+                        $record->bank_info_id = null;
+                    }
+
                     if($rec['bank_account_no']) {
                         $record->bank_account_no = $rec['bank_account_no'];
                     }
@@ -252,24 +278,73 @@ class EmpProfileController extends Controller
                     $record = EmpProfile::find($rec['id']);
                     if($rec['access_control'] != 'Select') {
                         $access_level_id = AccessControlList::where('access_level', $rec['access_control'])->select('id')->get();
+                        //
+                        $before = AccessControlList::find($record->access_level_id);
+                        if($before) {
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        //
+                        $after = AccessControlList::find($access_level_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
+                        //
                         $record->access_level_id = $access_level_id[0]->{'id'};
                     }
                     else{
+                        if($record->access_level_id != '' and $record->access_level_id != 'Select'){
+                            $before = AccessControlList::find($record->access_level_id);
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
                         $record->access_level_id = null;
+
                     }
                     $record->emp_display_id = $rec['emp_display_id'];
                     if($rec['department'] != 'Select') {
                         $department_id = Department::where('name', $rec['department'])->select('id')->get();
+                        //
+                        $before = Department::find($record->department_id);
+                        if($before) {
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        //
+                        $after = Department::find($department_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
+                        //
                         $record->department_id = $department_id[0]->{'id'};
                     }
                     else{
+                        if($record->department_id != '' and $record->department_id != 'Select'){
+                            $before = Department::find($record->department_id);
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
                         $record->department_id = null;
                     }
                     if($rec['designation'] != 'Select') {
                         $designation_id = EmpDesignation::where('name', $rec['designation'])->select('id')->get();
+                        //
+                        $before = EmpDesignation::find($record->designation_id);
+                        if($before) {
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        //
+                        $after = EmpDesignation::find($designation_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
+                        //
                         $record->designation_id = $designation_id[0]->{'id'};
                     }
                     else{
+                        if($record->designation_id != '' and $record->designation_id != 'Select'){
+                            $before = EmpDesignation::find($record->designation_id);
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
                         $record->designation_id = null;
                     }
                     $record->join_date = ($rec['join_date'] ? $rec['join_date'] : null);
@@ -290,8 +365,28 @@ class EmpProfileController extends Controller
                     $record->emp_display_id = $rec['emp_display_id'];
                     if($rec['qualification'] != 'Select') {
                         $qualification_id = EmpQualification::where('name', $rec['qualification'])->select('id')->get();
+                        //
+                        $before = EmpQualification::find($record->qualification_id);
+                        if($before) {
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        //
+                        $after = EmpQualification::find($qualification_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
+                        //
                         $record->qualification_id = $qualification_id[0]->{'id'};
                     }
+                    else{
+                        if($record->qualification_id != '' and $record->qualification_id != 'Select'){
+                            $before = EmpQualification::find($record->qualification_id);
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        $record->qualification_id = null;
+                    }
+
                     $record->qualification_other = $rec['qualification_other'];
                     if($rec['qualification_docs']) {
                         $record->qualification_docs = $rec['qualification_docs'];
@@ -377,8 +472,28 @@ class EmpProfileController extends Controller
                     $record->emp_display_id = $rec['emp_display_id'];
                     if($rec['bank_Ifscs'] != 'Select') {
                         $bankInfo_id = BankInfo::where('ifsc', $rec['bank_Ifscs'])->select('id')->get();
+                        //
+                        $before = BankInfo::find($record->bank_info_id);
+                        if($before) {
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        //
+                        $after = BankInfo::find($bankInfo_id[0]->{'id'});
+                        $after->in_use += 1;
+                        $after->save();
+                        //
                         $record->bank_info_id = $bankInfo_id[0]->{'id'};
                     }
+                    else{
+                        if($record->bank_info_id != '' and $record->bank_info_id != 'Select'){
+                            $before = BankInfo::find($record->bank_info_id);
+                            $before->in_use -= 1;
+                            $before->save();
+                        }
+                        $record->bank_info_id = null;
+                    }
+
                     if($rec['bank_account_no']){
                         $record->bank_account_no = $rec['bank_account_no'];
                     }
@@ -425,6 +540,13 @@ class EmpProfileController extends Controller
                 if($record2) {
                     $record2->delete();
                 }
+                //
+                $before = AccessControlList::find($record->access_level_id);
+                if($before) {
+                    $before->in_use -= 1;
+                    $before->save();
+                }
+                //
                 $record->delete();
             }
         }

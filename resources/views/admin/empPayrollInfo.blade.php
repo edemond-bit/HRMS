@@ -124,7 +124,7 @@
             $('#fd_sort_by').val(sort_by);
             $('#fd_sort_type').val(sort_type);
             $('#fd_query').val(query);
-            document.getElementById("searchfilter").action = '\\emp_payroll_info\\fetch_data?page=' + page;
+            document.getElementById("searchfilter").action = '{{ route("emp_payroll_info.fetch_data") }}?page=' + page;
             $("#waitingScreen").modal("show");
             $("#searchfilter").submit();
         }
@@ -347,7 +347,7 @@
                 $('#fd_cud_sort_type').val($('#fd_sort_type').val());
                 $('#fd_cud_query').val($('#fd_query').val());
                 $('#fd_cud').val(reqJsonData);
-                document.getElementById("cud_action").action = '\\emp_payroll_info\\update_data?page=' + $('#fd_cud_page').val();
+                document.getElementById("cud_action").action = '{{ route("emp_payroll_info.update_data") }}?page=' + $('#fd_cud_page').val();
                 $("#waitingScreen").modal("show");
                 $("#cud_action").submit();
             }

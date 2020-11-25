@@ -72,7 +72,7 @@ if(!isset($_SESSION['dd'])){
                             </td>
                             {{--<td>{{ $user->password }}</td>--}}
                             <td>
-                                <button style="font-size:15px" onclick="window.location.href = '{{route("admin.show",$user->profile_id )}}';"><i class="fa fa-search"></i></button>
+                                <!--<button style="font-size:15px" onclick="window.location.href = '{{route("admin.show",$user->profile_id )}}';"><i class="fa fa-search"></i></button>-->
                                 <button style="font-size:15px" onclick="window.location.href = '{{route("pages.edit",$user->profile_id )}}';"><i class="fa fa-trash" ></i></button>
                                 <button style="font-size:15px" onclick="window.location.href = '{{route("admin.edit",$user->profile_id )}}';"><i class="fa fa-pencil-square"></i></button>
                             </td>

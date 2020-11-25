@@ -199,7 +199,7 @@
             $('#fd_sort_by').val(sort_by);
             $('#fd_sort_type').val(sort_type);
             $('#fd_query').val(query);
-            document.getElementById("searchfilter").action = '\\emp_payroll\\fetch_data?page=' + page;
+            document.getElementById("searchfilter").action = '{{ route("emp_payroll.fetch_data") }}?page=' + page;
             $("#waitingScreen").modal("show");
             $("#searchfilter").submit();
         }
@@ -338,8 +338,8 @@
             var cells = document.getElementById("Table1").rows[index].cells;
             var sr_id = cells[1].innerText;
 
-            document.getElementById("payslip_print").action = '\\emp_payroll\\payslip_print?id=' + sr_id;
-            //$("#waitingScreen").modal("show");
+            document.getElementById("payslip_print").action = '{{ route("emp_payroll.payslip_print") }}?id=' + sr_id;
+            $("#waitingScreen").modal("show");
             $("#payslip_print").submit();
         }
 
@@ -412,7 +412,7 @@
                 $('#fd_cud_sort_type').val($('#fd_sort_type').val());
                 $('#fd_cud_query').val($('#fd_query').val());
                 $('#fd_cud').val(reqJsonData);
-                document.getElementById("cud_action").action = '\\emp_payroll\\update_data?page=' + $('#fd_cud_page').val();
+                document.getElementById("cud_action").action = '{{ route("emp_payroll.update_data") }}?page=' + $('#fd_cud_page').val();
                 $("#waitingScreen").modal("show");
                 $("#cud_action").submit();
             }

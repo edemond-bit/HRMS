@@ -69,6 +69,7 @@ class LeaveScheduleController extends Controller
         $uid = Auth::id();
         $user = User::find($uid);
 
+        //dd($recs);
         foreach ($recs as $rec) {
             //Check for duplicate entry
             //if(LeaveSchedule::where('name', $rec['name'])->count() == 0) {
@@ -78,7 +79,7 @@ class LeaveScheduleController extends Controller
                     //Update data in DB
                     $record = LeaveSchedule::find($rec['id']);
                     $extra_day = $rec['day_count'] - $record->day_count;
-                    if($extra_day > 0) {
+                    if($extra_day >= 0) {
                         if (($record->designation_id && count($designation_id) == 0) ||
                             (count($designation_id) > 0 && $record->designation_id <> $designation_id[0]->{'id'})) {
                             //dd($record->designation_id);

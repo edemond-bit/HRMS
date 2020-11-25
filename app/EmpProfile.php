@@ -157,7 +157,18 @@ class EmpProfile extends Model
     }
 
     public static function getByEmpDisplayId($emp_display_id){
-        return DB::table('emp_profile')->select('*')
+        return DB::table('emp_profile')->select('profile_id', 'access_level_id', 'access_control_list.access_level as access_level',
+            'emp_display_id', 'department.name as dept_name', 'designation_id', 'emp_designation.name as designation', 'join_date', 'leave_date',
+            'last_login', 'last_logout', 'emp_profile.status as status', 'qualification_id', 'emp_qualification.name as qualification',
+            'qualification_other', 'qualification_docs', 'panNumber', 'pan_copy', 'voterId', 'voter_copy', 'aadharNumber', 'aadhar_copy',
+            'emp_profile.name as name', 'DOB', 'gender', 'mobile', 'mobile_verified', 'email', 'email_verified', 'marital_status', 'profile_image',
+            'address_current', 'address_permanent', 'gurdian_name', 'gurdian_contact', 'emergency_name', 'emergency_contact', 'emergency_address',
+            'bank_info_id', 'bank_info.name as bank_name', 'bank_info.ifsc as bank_ifsc', 'bank_account_no', 'cancel_cheque', 'pf_account_no')
+            ->leftjoin('access_control_list', 'emp_profile.access_level_id', '=', 'access_control_list.id')
+            ->leftJoin('emp_designation', 'emp_profile.designation_id', '=', 'emp_designation.id')
+            ->leftJoin('department', 'emp_profile.department_id', '=', 'department.id')
+            ->leftjoin('emp_qualification', 'emp_profile.qualification_id', '=', 'emp_qualification.id')
+            ->leftjoin('bank_info', 'emp_profile.bank_info_id', '=', 'bank_info.id')
             ->where('emp_display_id', '=', $emp_display_id)
             ->get();
     }
