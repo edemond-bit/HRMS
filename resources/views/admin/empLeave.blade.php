@@ -4,145 +4,153 @@
         <script>window.location.href = '{{route("login")}}';</script>
     @endif
     <style></style>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-2">
-            <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
-                <table cellspacing="0" rules="all" border="1" id="Table2" style="border-collapse:collapse;" class="table table-hover table-bordered" >
-                    <thead>
-                    <tr>
-                        <th align='center' colspan="1">
-                        </th>
-                        <th align='center' colspan="5">
-                            <div class="row">
-                                <div style="text-align:center">
-                                    <b>Employee Leave Allotment</b>
-                                </div>
-                            </div>
-                        </th>
-                        <!--<th align='center' colspan="2">
-                            <div class="row">
-                                <div style="text-align:center">
-                                    <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach2" id="data_serach2" value="{{$pageSetting['query']}}" />
-                                    <button style="text-align:center; font-size:12px;" onclick="searchTable2();"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </th>-->
-                    </tr>
-                    <tr align='center'>
-                        <th>Emp Display Id</th>
-                        <th>Emp Designation</th>
-                        <th>CL</th>
-                        <th>SL</th>
-                        <th>EL</th>
-                        <th>PL</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($data['leaveAllotment'] as $leaveAllot)
-                        <tr>
-                            <td>{{$leaveAllot['emp_display_id']}}</td>
-                            <td>{{$leaveAllot['designation']}}</td>
-                            <td>{{$leaveAllot['CL']}}</td>
-                            <td>{{$leaveAllot['SL']}}</td>
-                            <td>{{$leaveAllot['EL']}}</td>
-                            <td>{{$leaveAllot['PL']}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-8 col-md-offset-2">
-            <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
-                <div style="text-align:left">
-                    {!! $data['empLeaves']->links() !!}
-                </div>
-                <table cellspacing="0" rules="all" border="1" id="Table1" style="border-collapse:collapse;" class="table table-hover table-bordered" >
-                    <thead>
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <div class="col-md-6 col-md-offset-0">
+                <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
+                    <table cellspacing="0" rules="all" border="1" id="Table2" style="border-collapse:collapse;" class="table table-hover table-bordered" >
+                        <thead>
                         <tr>
                             <th align='center' colspan="1">
-                                {!! Form::selectRange('records', 5, 100, $pageSetting['recs'], array('onchange' => 'changePageRecs(this)')) !!}
                             </th>
                             <th align='center' colspan="5">
                                 <div class="row">
                                     <div style="text-align:center">
-                                        <b>Employee Leave</b>
+                                        <b>Employee Leave Allotment</b>
                                     </div>
                                 </div>
                             </th>
-                            <th align='center' colspan="2">
+                            <!--<th align='center' colspan="2">
                                 <div class="row">
                                     <div style="text-align:center">
-                                        <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach" id="data_serach" value="{{$pageSetting['query']}}" />
-                                        <button style="text-align:center; font-size:12px;" onclick="search();"><i class="fa fa-search"></i></button>
-                                        <button style="text-align:center; font-size:12px;" onclick="add();"><i class="fa fa-plus"></i></button>
-                                        <button style="text-align:center; font-size:12px;" onclick="save();"><i class="fa fa-save"></i></button>
+                                        <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach2" id="data_serach2" value="{{$pageSetting['query']}}" />
+                                        <button style="text-align:center; font-size:12px;" onclick="searchTable2();"><i class="fa fa-search"></i></button>
                                     </div>
                                 </div>
-                            </th>
+                            </th>-->
                         </tr>
                         <tr align='center'>
-                            <th width="10%" align='center'><i class="fa fa-trash"></i></th>
-                            <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="id" style="cursor: pointer"> Sr <span id="id_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="emp_display_id" style="cursor: pointer"> Emp. Display Id <span id="emp_display_id_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="leave_type" style="cursor: pointer"> Leave Type <span id="leave_type_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="reason" style="cursor: pointer"> Reason <span id="reason_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="start_date" style="cursor: pointer"> Start Date <span id="start_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="end_date" style="cursor: pointer"> End Date <span id="end_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                            <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="leave_status" style="cursor: pointer"> Leave Status <span id="leave_status_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                            <th>Emp Display Id</th>
+                            <th>Emp Designation</th>
+                            <th>CL</th>
+                            <th>SL</th>
+                            <th>EL</th>
+                            <th>PL</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr align='center'>
-                        @if($data['empLeaves'])
-                            <?php $index = 2; ?>
-                            @foreach ($data['empLeaves'] as $empLeave)
-                                <?php $index++; ?>
-                                <tr>
-                                    <td>
-                                        <label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
-                                        <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
-                                    </td>
-                                    <td>{{ $empLeave->id }}</td>
-                                    <td><label class="lblname">{{$empLeave->emp_display_id}}</label></td>
-                                    <td><label class="lblname">{{$empLeave->leave_type}}</label></td>
-                                    <td><label class="lblname">{{$empLeave->reason}}</label></td>
-                                    <td><label class="lblname">{{$empLeave->start_date}}</label></td>
-                                    <td><label class="lblname">{{$empLeave->end_date}}</label></td>
-                                    <td><label class="lblname">{{$empLeave->leave_status}}</label></td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tr>
-                    </tbody>
-                </table>
-                <div hidden>
-                    <form id="searchfilter2" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
-                        {{csrf_field()}}
-                        <input type="text" name="fd_query2" id="fd_query2" value="{{$pageSetting['query']}}">
-                    </form>
-                    <form id="searchfilter" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
-                        {{csrf_field()}}
-                        <input type="text" name="fd_page" id="fd_page" value="{{$pageSetting['page']}}">
-                        <input type="text" name="fd_recs" id="fd_recs" value="{{$pageSetting['recs']}}">
-                        <input type="text" name="fd_sort_by" id="fd_sort_by" value="{{$pageSetting['sort_by']}}">
-                        <input type="text" name="fd_sort_type" id="fd_sort_type" value="{{$pageSetting['sort_type']}}">
-                        <input type="text" name="fd_query" id="fd_query" value="{{$pageSetting['query']}}">
-                    </form>
-                    <form id="cud_action" method="POST" action="{{route('shift_category.update_data',null,1)}}" enctype="application/json">
-                        {{csrf_field()}}
-                        <input type="text" name="fd_cud_page" id="fd_cud_page" value="{{$pageSetting['page']}}">
-                        <input type="text" name="fd_cud_recs" id="fd_cud_recs" value="{{$pageSetting['recs']}}">
-                        <input type="text" name="fd_cud_sort_by" id="fd_cud_sort_by" value="{{$pageSetting['sort_by']}}">
-                        <input type="text" name="fd_cud_sort_type" id="fd_cud_sort_type" value="{{$pageSetting['sort_type']}}">
-                        <input type="text" name="fd_cud_query" id="fd_cud_query" value="{{$pageSetting['query']}}">
-                        <textarea name="fd_cud" id="fd_cud" rows="6" cols="50">
-                        </textarea>
-                    </form>
+                        </thead>
+                        <tbody>
+                        @foreach($data['leaveAllotment'] as $leaveAllot)
+                            <tr>
+                                <td>{{$leaveAllot['emp_display_id']}}</td>
+                                <td>{{$leaveAllot['designation']}}</td>
+                                <td>{{$leaveAllot['CL']}}</td>
+                                <td>{{$leaveAllot['SL']}}</td>
+                                <td>{{$leaveAllot['EL']}}</td>
+                                <td>{{$leaveAllot['PL']}}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </div>
+            </td>
+            <td>
+                <div class="col-md-8 col-md-offset-0">
+                <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
+                    <div style="text-align:left">
+                        {!! $data['empLeaves']->links() !!}
+                    </div>
+                    <table cellspacing="0" rules="all" border="1" id="Table1" style="border-collapse:collapse;" class="table table-hover table-bordered" >
+                        <thead>
+                            <tr>
+                                <th align='center' colspan="1">
+                                    {!! Form::selectRange('records', 5, 100, $pageSetting['recs'], array('onchange' => 'changePageRecs(this)')) !!}
+                                </th>
+                                <th align='center' colspan="5">
+                                    <div class="row">
+                                        <div style="text-align:center">
+                                            <b>Employee Leave</b>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th align='center' colspan="2">
+                                    <div class="row">
+                                        <div style="text-align:center">
+                                            <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach" id="data_serach" value="{{$pageSetting['query']}}" />
+                                            <button style="text-align:center; font-size:12px;" onclick="search();"><i class="fa fa-search"></i></button>
+                                            <button style="text-align:center; font-size:12px;" onclick="add();"><i class="fa fa-plus"></i></button>
+                                            <button style="text-align:center; font-size:12px;" onclick="save();"><i class="fa fa-save"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr align='center'>
+                                <th width="10%" align='center'><i class="fa fa-trash"></i></th>
+                                <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="id" style="cursor: pointer"> Sr <span id="id_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="emp_display_id" style="cursor: pointer"> Emp. Display Id <span id="emp_display_id_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="leave_type" style="cursor: pointer"> Leave Type <span id="leave_type_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="12%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="reason" style="cursor: pointer"> Reason <span id="reason_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="start_date" style="cursor: pointer"> Start Date <span id="start_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="end_date" style="cursor: pointer"> End Date <span id="end_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="14%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="leave_status" style="cursor: pointer"> Leave Status <span id="leave_status_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr align='center'>
+                            @if($data['empLeaves'])
+                                <?php $index = 2; ?>
+                                @foreach ($data['empLeaves'] as $empLeave)
+                                    <?php $index++; ?>
+                                    <tr>
+                                        <td>
+                                            <label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
+                                            <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
+                                        </td>
+                                        <td>{{ $empLeave->id }}</td>
+                                        <td><label class="lblname">{{$empLeave->emp_display_id}}</label></td>
+                                        <td><label class="lblname">{{$empLeave->leave_type}}</label></td>
+                                        <td><label class="lblname">{{$empLeave->reason}}</label></td>
+                                        <td><label class="lblname">{{$empLeave->start_date}}</label></td>
+                                        <td><label class="lblname">{{$empLeave->end_date}}</label></td>
+                                        <td><label class="lblname">{{$empLeave->leave_status}}</label></td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div hidden>
+                        <form id="searchfilter2" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
+                            {{csrf_field()}}
+                            <input type="text" name="fd_query2" id="fd_query2" value="{{$pageSetting['query']}}">
+                        </form>
+                        <form id="searchfilter" method="POST" action="{{route('shift_category.fetch_data',null,1)}}" enctype="application/json">
+                            {{csrf_field()}}
+                            <input type="text" name="fd_page" id="fd_page" value="{{$pageSetting['page']}}">
+                            <input type="text" name="fd_recs" id="fd_recs" value="{{$pageSetting['recs']}}">
+                            <input type="text" name="fd_sort_by" id="fd_sort_by" value="{{$pageSetting['sort_by']}}">
+                            <input type="text" name="fd_sort_type" id="fd_sort_type" value="{{$pageSetting['sort_type']}}">
+                            <input type="text" name="fd_query" id="fd_query" value="{{$pageSetting['query']}}">
+                        </form>
+                        <form id="cud_action" method="POST" action="{{route('shift_category.update_data',null,1)}}" enctype="application/json">
+                            {{csrf_field()}}
+                            <input type="text" name="fd_cud_page" id="fd_cud_page" value="{{$pageSetting['page']}}">
+                            <input type="text" name="fd_cud_recs" id="fd_cud_recs" value="{{$pageSetting['recs']}}">
+                            <input type="text" name="fd_cud_sort_by" id="fd_cud_sort_by" value="{{$pageSetting['sort_by']}}">
+                            <input type="text" name="fd_cud_sort_type" id="fd_cud_sort_type" value="{{$pageSetting['sort_type']}}">
+                            <input type="text" name="fd_cud_query" id="fd_cud_query" value="{{$pageSetting['query']}}">
+                            <textarea name="fd_cud" id="fd_cud" rows="6" cols="50">
+                            </textarea>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
     <script type="text/javascript">
         function pageSetting(){
             var column_name = $('#fd_sort_by').val();
