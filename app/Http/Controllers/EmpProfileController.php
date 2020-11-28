@@ -280,7 +280,7 @@ class EmpProfileController extends Controller
                         $access_level_id = AccessControlList::where('access_level', $rec['access_control'])->select('id')->get();
                         //
                         $before = AccessControlList::find($record->access_level_id);
-                        if($before) {
+                        if ($before) {
                             $before->in_use -= 1;
                             $before->save();
                         }
@@ -298,7 +298,6 @@ class EmpProfileController extends Controller
                             $before->save();
                         }
                         $record->access_level_id = null;
-
                     }
                     $record->emp_display_id = $rec['emp_display_id'];
                     if($rec['department'] != 'Select') {

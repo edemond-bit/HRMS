@@ -29,7 +29,7 @@ class EmpPayrollInfo extends Model
                 ->select('emp_profile.emp_display_id as emp_display_id', 'ctc', 'hike_amt',
                     'indiv_hike_amt', 'loan_taken_amt', 'loan_deducted_amt')
                 ->leftjoin('emp_profile', 'emp_payroll_info.id', '=', 'emp_profile.profile_id')
-                ->orWhere('emp_profile.emp_display_id', 'like', '%' . $query . '%')
+                ->where('emp_profile.emp_display_id', 'like', '%' . $query . '%')
                 ->orWhere('ctc', 'like', '%' . $query . '%')
                 ->orWhere('hike_amt', 'like', '%' . $query . '%')
                 ->orWhere('indiv_hike_amt', 'like', '%' . $query . '%')

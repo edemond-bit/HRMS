@@ -58,7 +58,8 @@ class PayrollPayableController extends Controller
 
         foreach ($recs as $rec) {
             //Check for duplicate entry
-            if(PayrollPayable::where('designation', $rec['designation'])->count() == 0) {
+            //dd($rec['designation']);
+            //if(PayrollPayable::where('designation', $rec['designation'])->count() == 0) {
                 //Update data in DB
                 $record = PayrollPayable::find($rec['id']);
                 $record->designation = $rec['designation'];
@@ -71,7 +72,7 @@ class PayrollPayableController extends Controller
                 $record->modified_by = $user->admin;
                 $record->modified_date = $this->now();
                 $record->save();
-            }
+            //}
         }
     }
 

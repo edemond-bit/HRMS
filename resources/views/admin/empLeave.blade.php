@@ -3,8 +3,8 @@
     @if (Auth::guest())
         <script>window.location.href = '{{route("login")}}';</script>
     @endif
-    <script></script>
-    <div class="container">
+    <style></style>
+    <div class="row">
         <div class="col-md-6 col-md-offset-2">
             <div class="table-responsive-sm" style="overflow-x:auto; overflow-y:auto;">
                 <table cellspacing="0" rules="all" border="1" id="Table2" style="border-collapse:collapse;" class="table table-hover table-bordered" >
@@ -12,21 +12,21 @@
                     <tr>
                         <th align='center' colspan="1">
                         </th>
-                        <th align='center' colspan="3">
+                        <th align='center' colspan="5">
                             <div class="row">
                                 <div style="text-align:center">
                                     <b>Employee Leave Allotment</b>
                                 </div>
                             </div>
                         </th>
-                        <th align='center' colspan="2">
+                        <!--<th align='center' colspan="2">
                             <div class="row">
                                 <div style="text-align:center">
                                     <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach2" id="data_serach2" value="{{$pageSetting['query']}}" />
                                     <button style="text-align:center; font-size:12px;" onclick="searchTable2();"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
-                        </th>
+                        </th>-->
                     </tr>
                     <tr align='center'>
                         <th>Emp Display Id</th>

@@ -370,7 +370,7 @@
                     //Existing record update request
                     var names = row.getElementsByClassName("name");
                     if(names[0].value) {
-                        uArr[u++] = JSON.stringify({"emp_display_id": row.cells[3].innerHTML,
+                        uArr[u++] = JSON.stringify({"id": row.cells[1].innerHTML, "emp_display_id": row.cells[5].innerText,
                             "medicine_due": names[0].value, "food_charge": names[1].value, "other_deduction": names[2].value});
                         if (actions[k].innerHTML == 'LU') {
                             l++;
@@ -403,7 +403,7 @@
             //alert(qIndx);
             if (qIndx && confirm(message)) {
                 var reqJsonData = '{' + qArr.join(',') + '}';
-                //alert(reqJsonData);
+                alert(reqJsonData);
 
                 $('#fd_cud_page').val($('#fd_page').val());
                 cur_recs = $('#fd_recs').val();

@@ -47,7 +47,9 @@ class EmpPayrollController extends Controller
 
         foreach ($recs as $rec) {
             $empProfile = EmpProfile::where('emp_display_id', $rec['emp_display_id'])->select('profile_id')->get();
+            //dd($empProfile);
             $empPayroll = EmpPayroll::where('emp_id', $empProfile[0]->{'profile_id'})->select('id')->get();
+            //dd($empPayroll);
             if($empPayroll[0]) {
                 $record = EmpPayroll::find($empPayroll[0]->{'id'});
                 $record->medicine_due = $rec['medicine_due'];

@@ -158,10 +158,25 @@ class EmpLeaveController extends Controller
         foreach($leaveAllotment as $leaveAllot){
             $record = EmpProfile::find($leaveAllot->id);
             //dd($record);
-            $leaveName  = EmpDesignation::find($leaveAllot->designation_id);
-            //dd($leaveName)
             $res['emp_display_id'] = $record->emp_display_id;
-            $res['designation'] = $leaveName->name;
+            if($leaveAllot->designation_id){
+                $designationName  = EmpDesignation::find($leaveAllot->designation_id);
+                //dd($designationName)
+                $res['designation'] = $designationName->name;
+            }
+            else if($record->designation_id){
+                $designationName  = EmpDesignation::find($record->designation_id);
+                //dd($designationName)
+                $res['designation'] = $designationName->name;
+                //
+                $rec_leaveAllot = EmpLeaveAllotment::find($leaveAllot->id);
+                //dd($rec_leaveAllot);
+                $rec_leaveAllot->designation_id = $record->designation_id;
+                $rec_leaveAllot->save();
+            }
+            else{
+                $res['designation'] = null;
+            }
             $res['CL'] = $leaveAllot->CL;
             $res['SL'] = $leaveAllot->SL;
             $res['EL'] = $leaveAllot->EL;
