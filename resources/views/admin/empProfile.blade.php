@@ -53,8 +53,8 @@
                                             <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="designation" style="cursor: pointer"> Designation <span id="designation_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                             <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="join_date" style="cursor: pointer"> Join Date <span id="join_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                             <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="leave_date" style="cursor: pointer"> Leave Date <span id="leave_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                                            <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="last_login" style="cursor: pointer"> Last Login <span id="last_login_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                                            <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="last_logout" style="cursor: pointer"> Last Logout <span id="last_logout_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                            <!--<th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="last_login" style="cursor: pointer"> Last Login <span id="last_login_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                            <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="last_logout" style="cursor: pointer"> Last Logout <span id="last_logout_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>-->
                                             <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="status" style="cursor: pointer"> Status <span id="status_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                         </tr>
                                     </thead>
@@ -128,34 +128,6 @@
                                                     }
                                                     @endphp
                                                     <td><label class="lblname" for={{$formtmatted2}}>{{$leave_date_fmt}}</label></td>
-                                                    @php
-                                                    if($empProfile->last_login){
-                                                        $last_login = date_create($empProfile->last_login);
-                                                        $formt_date3 = date_format($last_login,"Y-m-d");
-                                                        $formt_time3 = date_format($last_login,"H:i:s");
-                                                        $last_login_fmt = date_format($last_login, "Y-m-d A g:i");
-                                                        $formtmatted3 = $formt_date3 . 'T' . $formt_time3;
-                                                    }
-                                                    else{
-                                                        $last_login_fmt = $empProfile->last_login;
-                                                        $formtmatted3 = $empProfile->last_login;
-                                                    }
-                                                    @endphp
-                                                    <td><label class="lblname" for={{$formtmatted3}}>{{$last_login_fmt}}</label></td>
-                                                    @php
-                                                    if($empProfile->last_logout){
-                                                        $last_logout = date_create($empProfile->last_logout);
-                                                        $formt_date4 = date_format($last_logout,"Y-m-d");
-                                                        $formt_time4 = date_format($last_logout,"H:i:s");
-                                                        $last_logout_fmt = date_format($last_logout, "Y-m-d A g:i");
-                                                        $formtmatted4 = $formt_date4 . 'T' . $formt_time4;
-                                                    }
-                                                    else{
-                                                        $last_logout_fmt = $empProfile->last_logout;
-                                                        $formtmatted4 = $empProfile->last_logout;
-                                                    }
-                                                    @endphp
-                                                    <td><label class="lblname" for={{$formtmatted4}}>{{$last_logout_fmt}}</label></td>
                                                     <td><label class="lblname">{{$empProfile->status}}</label></td>
                                                 </tr>
                                             @endforeach
@@ -699,11 +671,11 @@
 
                 grid.insertCell(7).innerHTML = "<input type='datetime-local' id='leave_date' class='leave_date'>";
 
-                grid.insertCell(8).innerHTML = "<input type='datetime-local' id='last_login' class='last_login'>";
+                //grid.insertCell(8).innerHTML = "<input type='datetime-local' id='last_login' class='last_login'>";
 
-                grid.insertCell(9).innerHTML = "<input type='datetime-local' id='last_logout' class='last_logout'>";
+                //grid.insertCell(9).innerHTML = "<input type='datetime-local' id='last_logout' class='last_logout'>";
 
-                grid.insertCell(10).innerHTML = "<select id='status' class='name' style='text-align:center;height:20px;'>" +
+                grid.insertCell(8).innerHTML = "<select id='status' class='name' style='text-align:center;height:20px;'>" +
                     "<option value='Active'>Active</option><option value='In-Active'>In-Active</option></select>";
             }
             else if($('#fd_tab').val() == 'kyc_qualification'){
@@ -1008,7 +980,7 @@
                     cells[7].innerHTML = "<label class='lblname' for='" + lblDateTime + "' hidden>" + lblName + "</label>" +
                         "<input type='datetime-local' id='leave_date' class='leave_date' value='" + lblDateTime + "'>";
 
-                    lblelement = cells[8].getElementsByClassName("lblname");
+                    /*lblelement = cells[8].getElementsByClassName("lblname");
                     lblDateTime = lblelement[0].htmlFor;
                     lblName = lblelement[0].innerText;
                     cells[8].innerHTML = "<label class='lblname' for='" + lblDateTime + "' hidden>" + lblName + "</label>" +
@@ -1018,14 +990,14 @@
                     lblDateTime = lblelement[0].htmlFor;
                     lblName = lblelement[0].innerText;
                     cells[9].innerHTML = "<label class='lblname' for='" + lblDateTime + "' hidden>" + lblName + "</label>" +
-                        "<input type='datetime-local' id='last_logout' class='last_logout' value='" + lblDateTime + "'>";
+                        "<input type='datetime-local' id='last_logout' class='last_logout' value='" + lblDateTime + "'>";*/
 
-                    lblelement = cells[10].getElementsByClassName("lblname");
+                    lblelement = cells[8].getElementsByClassName("lblname");
                     lblName = lblelement[0].innerText;
-                    cells[10].innerHTML = "<label class='lblname' hidden>" + lblName + "</label><select id='status' " +
+                    cells[8].innerHTML = "<label class='lblname' hidden>" + lblName + "</label><select id='status' " +
                         "class='name' style='text-align:center;height:20px;'><option value='Active'>Active</option>" +
                         "<option value='In-Active'>In-Active</option></select>";
-                    cells[10].querySelector('option[value=' + lblName + ']').selected = true;
+                    cells[8].querySelector('option[value=' + lblName + ']').selected = true;
                 }
                 else if($('#fd_tab').val() == 'kyc_qualification'){
                     cells = document.getElementById("kyc_qualification-tab").rows[index].cells;
@@ -1541,9 +1513,9 @@
                             designation = row.cells[5].getElementsByClassName("designation");
                             join_date = row.cells[6].getElementsByClassName("join_date");
                             leave_date = row.cells[7].getElementsByClassName("leave_date");
-                            last_login = row.cells[8].getElementsByClassName("last_login");
-                            last_logout = row.cells[9].getElementsByClassName("last_logout");
-                            status = row.cells[10].getElementsByClassName("name");
+                            //last_login = row.cells[8].getElementsByClassName("last_login");
+                            //last_logout = row.cells[9].getElementsByClassName("last_logout");
+                            status = row.cells[8].getElementsByClassName("name");
 
                             nArr[n++] = JSON.stringify({
                                 "access_control": access_control[0].options[access_control[0].selectedIndex].text,
@@ -1552,8 +1524,8 @@
                                 "designation": designation[0].options[designation[0].selectedIndex].text,
                                 "join_date": join_date[0].value,
                                 "leave_date": leave_date[0].value,
-                                "last_login": last_login[0].value,
-                                "last_logout": last_logout[0].value,
+                                //"last_login": last_login[0].value,
+                                //"last_logout": last_logout[0].value,
                                 "status": status[0].options[status[0].selectedIndex].text
                             });
                         }
@@ -1569,9 +1541,9 @@
                             designation = row.cells[5].getElementsByClassName("designation");
                             join_date = row.cells[6].getElementsByClassName("join_date");
                             leave_date = row.cells[7].getElementsByClassName("leave_date");
-                            last_login = row.cells[8].getElementsByClassName("last_login");
-                            last_logout = row.cells[9].getElementsByClassName("last_logout");
-                            status = row.cells[10].getElementsByClassName("name");
+                            //last_login = row.cells[8].getElementsByClassName("last_login");
+                            //last_logout = row.cells[9].getElementsByClassName("last_logout");
+                            status = row.cells[8].getElementsByClassName("name");
 
                             uArr[u++] = JSON.stringify({
                                 "id": row.cells[1].innerHTML,
@@ -1581,8 +1553,8 @@
                                 "designation": designation[0].options[designation[0].selectedIndex].text,
                                 "join_date": join_date[0].value,
                                 "leave_date": leave_date[0].value,
-                                "last_login": last_login[0].value,
-                                "last_logout": last_logout[0].value,
+                                //"last_login": last_login[0].value,
+                                //"last_logout": last_logout[0].value,
                                 "status": status[0].options[status[0].selectedIndex].text
                             });
                         }
@@ -1968,7 +1940,7 @@
             //alert(qIndx);
             if (qIndx && confirm(message)) {
                 var reqJsonData = '{' + qArr.join(',') + '}';
-                alert(reqJsonData);
+                //alert(reqJsonData);
 
                 $('#fd_cud_page').val($('#fd_page').val());
                 $('#fd_cud_recs').val($('#fd_recs').val());

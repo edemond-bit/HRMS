@@ -52,7 +52,7 @@ class DepartmentController extends Controller
 
         foreach ($recs as $rec) {
             //Check for duplicate entry
-            if(Department::where('name', $rec['name'])->count() == 0) {
+            //if(Department::where('name', $rec['name'])->count() == 0) {
                 //Update data in DB
                 $record = Department::find($rec['id']);
                 $record->name = $rec['name'];
@@ -60,7 +60,7 @@ class DepartmentController extends Controller
                 $record->modified_by = $user->admin;
                 $record->modified_date = $this->now();
                 $record->save();
-            }
+            //}
         }
     }
 

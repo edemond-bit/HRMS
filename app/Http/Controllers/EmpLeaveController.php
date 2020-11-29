@@ -189,6 +189,7 @@ class EmpLeaveController extends Controller
     }
 
     public function index(){
+        $isAdmin = null;
         $uid = Auth::id();
         $user = User::find($uid);
 
@@ -202,6 +203,7 @@ class EmpLeaveController extends Controller
                 'leaveAllotment' => $leaveAllotment,
                 'empLeaves' => $empLeaves
             ];
+            $isAdmin = 1;
         }
         else{
             $empLeaves = EmpLeave::getByPaginate(8, $uid);
@@ -213,13 +215,15 @@ class EmpLeaveController extends Controller
                 'leaveAllotment' => $leaveAllotment,
                 'empLeaves' => $empLeaves
             ];
+            $isAdmin = 0;
         }
-        $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => ""];
+        $pageSetting = ["page" => "1", "recs" => 8, "sort_type" => "asc", "sort_by" => "id", "query" => "", "isAdmin" => $isAdmin];
         return view('admin.empLeave', compact('data'))->with('pageSetting', $pageSetting);
     }
 
     public function fetch_data(Request $request)
     {
+        $isAdmin = null;
         $uid = Auth::id();
         $user = User::find($uid);
 
@@ -240,6 +244,7 @@ class EmpLeaveController extends Controller
                 'leaveAllotment' => $leaveAllotment,
                 'empLeaves' => $empLeaves
             ];
+            $isAdmin = 1;
         }
         else{
             $empLeaves = EmpLeave::getByConditionalPaginate($recs, $sort_by, $sort_type, $query, $uid);
@@ -251,8 +256,9 @@ class EmpLeaveController extends Controller
                 'leaveAllotment' => $leaveAllotment,
                 'empLeaves' => $empLeaves
             ];
+            $isAdmin = 0;
         }
-        $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query];
+        $pageSetting = ["page" => $page, "recs" => $recs, "sort_type" => $sort_type, "sort_by" => $sort_by, "query" => $query, "isAdmin" => $isAdmin];
         return view('admin.empLeave', compact('data'))->with('pageSetting', $pageSetting);
     }
 

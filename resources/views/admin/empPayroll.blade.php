@@ -403,7 +403,7 @@
             //alert(qIndx);
             if (qIndx && confirm(message)) {
                 var reqJsonData = '{' + qArr.join(',') + '}';
-                alert(reqJsonData);
+                //alert(reqJsonData);
 
                 $('#fd_cud_page').val($('#fd_page').val());
                 cur_recs = $('#fd_recs').val();

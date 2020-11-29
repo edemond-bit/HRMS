@@ -47,16 +47,16 @@ class EmpAttendanceController extends Controller
                 $record->attendance_month = $rec['attendance_month'];
             }
             $record->login_date = $rec['login_date'];
-            $record->logout_date = $rec['logout_date'];
-            $record->working_minutes = $rec['working_minutes'];
+            $record->logout_date = ($rec['logout_date'] ? $rec['logout_date'] : null);
+            $record->working_minutes = ($rec['working_minutes'] ? $rec['working_minutes'] : null);
             if($rec['login_attendance'] != 'select') {
                 $record->login_attendance = $rec['login_attendance'];
             }
             if($rec['attendance_status']) {
                 $record->attendance_status = $rec['attendance_status'];
             }
-            $record->modified_by = $user->admin;
-            $record->modified_date = $this->now();
+            //$record->modified_by = $user->admin;
+            //$record->modified_date = $this->now();
             $record->save();
         }
     }

@@ -597,7 +597,7 @@
             //alert(qIndx);
             if (qIndx && confirm(message)) {
                 var reqJsonData = '{' + qArr.join(',') + '}';
-                alert(reqJsonData);
+                //alert(reqJsonData);
 
                 $('#fd_cud_page').val($('#fd_page').val());
                 $('#fd_cud_recs').val($('#fd_recs').val());

@@ -80,6 +80,7 @@
                                         Employee <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ route("department.index") }}">Department</a></li>
                                         <li><a href="{{ route("emp_qualification.index") }}">Qualification</a></li>
                                         <li><a href="{{ route("emp_category.index") }}">Category</a></li>
                                         <li><a href="{{ route("emp_designation.index") }}">Designation</a></li>
@@ -116,8 +117,6 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{{ route("leave_category.index") }}">Category</a></li>
                                         <li><a href="{{ route("leave_schedule.index") }}">Schedule</a></li>
-                                        <li><a href="{{ route("access_control.index") }}">ACL</a>
-                                        <li><a href="{{ route("department.index") }}">Department</a></li>
                                     </ul>
                                 </li>
                             @else
@@ -131,6 +130,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                 @if (Auth::user()->admin == 1002)
                                     <li><a href="{{ route('admin.index') }}">Admin</a></li>
+                                    <li><a href="{{ route("access_control.index") }}">ACL</a>
                                 @endif
                                     <li>
                                         <a href="{{ route('logout') }}"

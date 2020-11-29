@@ -80,8 +80,10 @@
                                         <div style="text-align:center">
                                             <input style="text-align:center; width:40%; height:25px;" type="search" name="data_serach" id="data_serach" value="{{$pageSetting['query']}}" />
                                             <button style="text-align:center; font-size:12px;" onclick="search();"><i class="fa fa-search"></i></button>
-                                            <button style="text-align:center; font-size:12px;" onclick="add();"><i class="fa fa-plus"></i></button>
-                                            <button style="text-align:center; font-size:12px;" onclick="save();"><i class="fa fa-save"></i></button>
+                                            @if($pageSetting['isAdmin'])
+                                                <button style="text-align:center; font-size:12px;" onclick="add();"><i class="fa fa-plus"></i></button>
+                                                <button style="text-align:center; font-size:12px;" onclick="save();"><i class="fa fa-save"></i></button>
+                                            @endif
                                         </div>
                                     </div>
                                 </th>
@@ -105,8 +107,10 @@
                                     <?php $index++; ?>
                                     <tr>
                                         <td>
-                                            <label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
-                                            <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
+                                            @if($pageSetting['isAdmin'])
+                                                <label class="action" hidden>D</label><input class='checkbox1' type="checkbox">
+                                                <button style="font-size:10px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
+                                            @endif
                                         </td>
                                         <td>{{ $empLeave->id }}</td>
                                         <td><label class="lblname">{{$empLeave->emp_display_id}}</label></td>

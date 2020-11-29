@@ -16,6 +16,7 @@ use App\EmpPayrollInfo;
 use App\EmpLeaveAllotment;
 use App\LeaveSchedule;
 use App\LeaveCategory;
+use App\EmpAttendance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 class EmpProfileController extends Controller
@@ -100,8 +101,8 @@ class EmpProfileController extends Controller
                     }
                     $record->join_date = ($rec['join_date'] ? $rec['join_date'] : null);
                     $record->leave_date = ($rec['leave_date'] ? $rec['leave_date'] : null);
-                    $record->last_login = ($rec['last_login'] ? $rec['last_login'] : null);
-                    $record->last_logout = ($rec['last_logout'] ? $rec['last_logout'] : null);
+                    $record->last_login = null;
+                    $record->last_logout = null;
                     $record->created_by = $user->admin;
                     $record->created_date = $this->now();
                     $record->status = $rec['status'];
@@ -348,8 +349,8 @@ class EmpProfileController extends Controller
                     }
                     $record->join_date = ($rec['join_date'] ? $rec['join_date'] : null);
                     $record->leave_date = ($rec['leave_date'] ? $rec['leave_date'] : null);
-                    $record->last_login = ($rec['last_login'] ? $rec['last_login'] : null);
-                    $record->last_logout = ($rec['last_logout'] ? $rec['last_logout'] : null);
+                    $record->last_login = null;
+                    $record->last_logout = null;
                     $record->modified_by = $user->admin;
                     $record->modified_date = $this->now();
                     $record->status = $rec['status'];
@@ -630,6 +631,8 @@ class EmpProfileController extends Controller
                 'bankIfscs' => [],
                 'empProfiles'  => $empProfiles
             ];
+            //$empAttendance = EmpAttendance::getLogData();
+            //dd($empAttendance);
         }
         else if($tab == 'kyc_qualification'){
             $empQualifications = EmpQualification::pluck(['name']);

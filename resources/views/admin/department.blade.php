@@ -215,7 +215,7 @@
             var chkbx = cells[0].getElementsByClassName("checkbox1");
             var action = cells[0].getElementsByClassName("action");
             //var srId = cells[1].innerText;
-            var lblname = cells[2].getElementsByClassName("lblname");
+            var lblname = '';
 
             if(element.innerHTML.search("pencil") != -1){
                 if(chkbx[0]) {
@@ -226,8 +226,11 @@
                     action[0].innerHTML = 'LU';
                 }
                 element.innerHTML = "<i class='fa fa-undo'></i>";
+                lblname = cells[2].getElementsByClassName("lblname");
                 lblName = lblname[0].innerText;
                 cells[2].innerHTML = "<label class='lblname' hidden>" + lblName + "</label><input class='name' type='text' style='border:none' value='" + lblName +  "' size='8'>";
+                lblname = cells[3].getElementsByClassName("lblname");
+                lblName = lblname[0].innerText;
                 cells[3].innerHTML = "<label class='lblname' hidden>" + lblName + "</label><textarea class='name' id='description' rows='2' cols='10'>" + lblName + "</textarea>";
             }
             else{
@@ -269,7 +272,7 @@
                     }
                 } else if (actions[k].innerHTML == 'LU' || actions[k].innerHTML == 'DU') {
                     //Existing record update request
-                    var names = row.cells[2].getElementsByClassName("name");
+                    var names = row.getElementsByClassName("name");
                     if(names[0].value) {
                         uArr[u++] = JSON.stringify({"id": row.cells[1].innerHTML, "name": names[0].value,
                             "description": names[1].value});

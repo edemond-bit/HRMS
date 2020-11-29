@@ -14,7 +14,7 @@ class EmpAttendance extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
     const CREATED_AT = 'created_date';
-    const UPDATED_AT = 'modified_date';
+    const UPDATED_AT = null;
 
     public static function getByPaginate($recs){
         return DB::table('emp_attendance')->select('emp_attendance.id as id', 'emp_profile.emp_display_id as emp_display_id',
@@ -138,5 +138,11 @@ class EmpAttendance extends Model
                 ->where('attendance_month', '=', $month)
                 ->get();
         }
+    }
+
+    public static function getLogData(){
+        return DB::table('emp_attendance')->select(max(['login_date']), max(['logout_date']))
+            ->leftJoin('emp_profile', 'emp_attendance.emp_id', '=', 'emp_profile.profile_id')
+            ->get()->groupBy('emp_profile.emp_display_id');
     }
 }

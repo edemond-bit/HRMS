@@ -43,7 +43,7 @@
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="attendance_year" style="cursor: pointer"> Attendance Year <span id="attendance_year_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="attendance_month" style="cursor: pointer"> Attendance Month <span id="attendance_month_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="login_date" style="cursor: pointer"> Login Date <span id="login_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                                <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="logout_date" style="cursor: pointer"> Logout Status <span id="login_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
+                                <th width="10%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="logout_date" style="cursor: pointer"> Logout Date <span id="logout_date_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="working_minutes" style="cursor: pointer"> Working Minutes <span id="working_minutes_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="shift_name" style="cursor: pointer"> Shift Name <span id="shift_name_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="8%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="login_attendance" style="cursor: pointer"> Login Attendance <span id="login_attendance_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
@@ -244,7 +244,7 @@
             var chkbx = cells[0].getElementsByClassName("checkbox1");
             var action = cells[0].getElementsByClassName("action");
             //var srId = cells[1].innerText;
-            var lblname = cells[7].getElementsByClassName("lblname");
+            //var lblname = cells[7].getElementsByClassName("lblname");
 
             if(element.innerHTML.search("pencil") != -1){
                 if(chkbx[0]) {
@@ -256,8 +256,8 @@
                 }
                 element.innerHTML = "<i class='fa fa-undo'></i>";
 
-                lblelement = cells[3].getElementsByClassName("lblname");
-                lblName = lblelement[0].innerText;
+                var lblelement = cells[3].getElementsByClassName("lblname");
+                var lblName = lblelement[0].innerText;
                 cells[3].innerHTML = "<label class='lblname' hidden>" + lblName + "</label>" +
                     "<input type='number' class='name' id='attendance_day' min='1' max='31' value='" + lblName + "'>";
 
@@ -269,14 +269,7 @@
                 lblelement = cells[5].getElementsByClassName("lblname");
                 lblName = lblelement[0].innerText;
                 cells[5].innerHTML = "<label class='lblname' hidden>" + lblName + "</label>" +
-                    "<select id='leave_status' class='name' style='text-align:center;height:20px;'>" +
-                    "<option value='select'>Select</option><option value='Jan'>Jan</option>" +
-                    "<option value='Feb'>Feb</option><option value='Mar'>Mar</option><option value='Apr'>Apr</option>" +
-                    "<option value='May'>May</option><option value='Jun'>Jun</option><option value='Jul'>Jul</option>" +
-                    "<option value='Aug'>Aug</option><option value='Sep'>Sep</option><option value='Oct'>Oct</option>" +
-                    "<option value='Nov'>Nov</option><option value='Dec'>Dec</option>" +
-                    "</select>";
-                cells[5].querySelector('option[value=' + lblName + ']').selected = true;
+                    "<input type='number' class='name' id='attendance_month' min='1' max='12' value='" + lblName + "'>";
 
                 lblelement = cells[6].getElementsByClassName("lblname");
                 lblDateTime = lblelement[0].htmlFor;
@@ -292,6 +285,7 @@
 
                 lblelement = cells[8].getElementsByClassName("lblname");
                 lblName = lblelement[0].innerText;
+                //alert(lblName);
                 cells[8].innerHTML = "<label class='lblname' hidden>" + lblName + "</label>" +
                     "<input type='number' class='name' id='working_minutes' min='0' value='" + lblName + "'>";
 
@@ -304,12 +298,12 @@
                 cells[10].querySelector('option[value=' + lblName + ']').selected = true;
 
                 lblelement = cells[11].getElementsByClassName("lblname");
-                lblName = lblelement[0].innerText;
+                lblName = lblelement[0].innerText
                 cells[11].innerHTML = "<label class='lblname' hidden>" + lblName + "</label>" +
                     "<select id='leave_status' class='name' style='text-align:center;height:20px;'>" +
-                    "<option value='select'>Select</option><option value='FD:Pending'>FD:Pending</option>" +
-                    "<option value='HD:Pending'>HD:Pending</option><option value='Full-Day'>Full-Day</option>" +
-                    "<option value='Half Day'>Half-Day</option><option value='Absent'>Absent</option>" +
+                    "<option value='select'>Select</option><option value='FD-Pending'>FD-Pending</option>" +
+                    "<option value='HD-Pending'>HD-Pending</option><option value='Full-Day'>Full-Day</option>" +
+                    "<option value='Half-Day'>Half-Day</option><option value='Absent'>Absent</option>" +
                     "<option value='OT'>OT</option><option value='Leave'>Leave</option>" +
                     "<option value='Off Day'>Off-Day</option></select>";
                 cells[11].querySelector('option[value=' + lblName + ']').selected = true;
