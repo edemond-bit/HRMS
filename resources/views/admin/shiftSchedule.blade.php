@@ -485,6 +485,7 @@
                     name = row.cells[2].getElementsByClassName("name");
 
                     shift_time = row.cells[3].getElementsByClassName("s_time");
+                    //alert(shift_time[2].value);
                     if(shift_time[2].value == 'PM'){
                         time_start = Number(shift_time[0].value) + Number(12);
                         time_start = time_start + ':' + shift_time[1].value;

@@ -277,9 +277,9 @@ class EmpPayrollController extends Controller
                             }
                             if ($attendanceRecord->{'login_attendance'} == 'Late') {
                                 $lateAttendanceCount[$emp_ids[$index]]++;
-                            } else if ($attendanceRecord->{'attendance_status'} == 'Full-Day' and $attendanceRecord->{'login_attendance'} != 'Late') {
+                            } else if ($attendanceRecord->{'attendance_status'} == 'FullDay' and $attendanceRecord->{'login_attendance'} != 'Late') {
                                 $attendance_CountFD[$emp_ids[$index]]++;
-                            } else if ($attendanceRecord->{'attendance_status'} == 'Half-Day' and $attendanceRecord->{'login_attendance'} != 'Late') {
+                            } else if ($attendanceRecord->{'attendance_status'} == 'HalfDay' and $attendanceRecord->{'login_attendance'} != 'Late') {
                                 $attendance_CountHD[$emp_ids[$index]]++;
                             } else if ($attendanceRecord->{'attendance_status'} == 'OT' and $attendanceRecord->{'login_attendance'} != 'Late') {
                                 $otCount[$emp_ids[$index]]++;

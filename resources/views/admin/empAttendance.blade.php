@@ -301,11 +301,11 @@
                 lblName = lblelement[0].innerText
                 cells[11].innerHTML = "<label class='lblname' hidden>" + lblName + "</label>" +
                     "<select id='leave_status' class='name' style='text-align:center;height:20px;'>" +
-                    "<option value='select'>Select</option><option value='FD-Pending'>FD-Pending</option>" +
-                    "<option value='HD-Pending'>HD-Pending</option><option value='Full-Day'>Full-Day</option>" +
-                    "<option value='Half-Day'>Half-Day</option><option value='Absent'>Absent</option>" +
+                    "<option value='select'>Select</option><option value='FDPending'>FDPending</option>" +
+                    "<option value='HDPending'>HDPending</option><option value='FullDay'>FullDay</option>" +
+                    "<option value='HalfDay'>HalfDay</option><option value='Absent'>Absent</option>" +
                     "<option value='OT'>OT</option><option value='Leave'>Leave</option>" +
-                    "<option value='Off Day'>Off-Day</option></select>";
+                    "<option value='OffDay'>OffDay</option></select>";
                 cells[11].querySelector('option[value=' + lblName + ']').selected = true;
             }
             else{

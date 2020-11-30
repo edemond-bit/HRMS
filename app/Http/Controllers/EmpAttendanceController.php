@@ -137,6 +137,7 @@ class EmpAttendanceController extends Controller
         $strLogIn = $login->format('Y-m-d H:i:s');
 
         DB::statement('call attendance_sheet_login(?,?,?,?)', [$user->profile_id, $strLogIn, @c_status, @status_msg]);
+        //dd(@c_status);
         return view('home', compact('strLogIn'));
     }
 
@@ -149,6 +150,7 @@ class EmpAttendanceController extends Controller
         $strLogOut = $logout->format('Y-m-d H:i:s');
 
         DB::statement('call attendance_sheet_logout(?,?,?,?)', [$user->profile_id, $strLogOut, @c_status, @status_msg]);
+        //dd($status_msg);
         return view('home', compact('strLogOut'));
     }
 
