@@ -15,7 +15,7 @@
                             <form id="punch_in" method="POST" action="{{route('emp_attendance.attendance_login',null,1)}}" enctype="application/json">
                                 {{csrf_field()}}
                                 <button type="submit" id='punch_in' style="text-align:left;">Punch In</button>
-                                @if($strLogIn ?? '')
+                                 @if($strLogIn ?? '')
                                     Log In Date&Time: {{$strLogIn ?? ''}}
                                 @endif
                             </form>

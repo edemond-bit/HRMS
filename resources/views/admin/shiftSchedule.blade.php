@@ -47,7 +47,7 @@
                                 <th width="7%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="login_punch_dur_mins" style="cursor: pointer"> Log-In Delay(HH:MM) <span id="login_punch_dur_mins_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="7%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="logout_punch_dur_mins" style="cursor: pointer"> Log-Out Delay(HH:MM) <span id="logout_punch_dur_mins_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
                                 <th width="7%" align='center' class="sorting" data-sorting_type="{{$pageSetting['sort_type']}}" data-column_name="ot_dur_mins" style="cursor: pointer"> OT Log-Out-In Delay(HH:MM) <span id="ot_dur_mins_sort_icon"><i class="fa fa-sort" aria-hidden="true"></i></span></th>
-                                <th width="11%" align='center'> In Use(count) </th>
+                                <th width="11%" align='center'> Action </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,7 +113,6 @@
                                                 }
                                                 $in_use = $in_use . '(' . $shiftSchedule->in_use . ')';
                                             @endphp
-                                            {{ $in_use }}
                                             <button style="font-size:15px" onclick="edit(this, {{$index}})"><i class="fa fa-pencil-square"></i></button>
                                         </td>
                                     </tr>

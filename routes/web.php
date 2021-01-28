@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/apilogin', 'ApiController@login')->name('apilogin');
+
 Route::get('/', function () {
     return view('welcome');
 });
