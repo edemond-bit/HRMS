@@ -10,7 +10,8 @@
                         <script>window.location.href = '{{route("login")}}';</script>
                     @endif
                         <p style="font-size:12px;"><b>Note:</b>&nbsp;&nbsp; Please use your office system to Punch In/Out but if you forgot<br>
-                                                     then E-mail at stupid6moron9@gmail.com for Punch In/Out timing.<br><br><br></p>
+                                                      then E-mail at stupid6moron9@gmail.com mentioning Employee Id<br>
+                                                      and Punch In/Out timing.<br><br></p>
                         <div class="container">
                             <form id="punch_in" method="POST" action="{{route('emp_attendance.attendance_login',null,1)}}" enctype="application/json">
                                 {{csrf_field()}}
